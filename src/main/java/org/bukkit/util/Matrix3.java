@@ -10,11 +10,11 @@ public class Matrix3 {
 
     //******************************* constructors ********************************
 
-    public Matrix3() {
+    private Matrix3() {
         this(new double[9]);
     }
 
-    public Matrix3(double... elements) {
+    private Matrix3(double... elements) {
         data = elements;
     }
 
