@@ -83,13 +83,6 @@ public class AffineTransform {
     /**
      * Transforms an axis from the world reference frame into the local
      * reference frame described by this affine transformation.
-     * <p>
-     * The following conditions apply:
-     * <ul>
-     * <li>X axis points to the left
-     * <li>Y axis points upward
-     * <li>Z axis points forward
-     * </ul>
      *
      * @param axis a world-coordinate axis
      * @return a local-coordinate axis
@@ -101,13 +94,6 @@ public class AffineTransform {
     /**
      * Transforms a position from the local reference frame described by this
      * affine transformation into the world reference frame.
-     * <p>
-     * The following conditions apply:
-     * <ul>
-     * <li>X axis points to the left
-     * <li>Y axis points upward
-     * <li>Z axis points forward
-     * </ul>
      *
      * @param position a local-coordinate position
      * @return a world-coordinate position
@@ -121,13 +107,6 @@ public class AffineTransform {
     /**
      * Transforms a position from the world reference frame into the local
      * reference frame described by this affine transformation.
-     * <p>
-     * The following conditions apply:
-     * <ul>
-     * <li>X axis points to the left
-     * <li>Y axis points upward
-     * <li>Z axis points forward
-     * </ul>
      *
      * @param position a world-coordinate position
      * @return a local-coordinate position
