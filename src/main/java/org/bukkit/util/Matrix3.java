@@ -79,29 +79,11 @@ public class Matrix3 {
         final double cr = Math.cos(roll);
         final double sr = Math.sin(roll);
 
-        /*return new Matrix3(
-                cy, -sy * sp, -sy * cp,
-                0 ,  cp     , -sp,
-                sy,  cy * sp,  cy * cp
-        );*/
-
         return new Matrix3(
                 cr * cy - sp * sr * sy, -cy * sr - cr * sp * sy, -cp * sy,
                 cp * sr               ,  cp * cr               , -sp,
                 cy * sp * sr + cr * sy,  cr * cy * sp - sr * sy,  cp * cy
         );
-
-        /*return new Matrix3(
-                cr * cy + sp * sr * sy, -cy * sr - cr * sp * sy, -cp * sy,
-                cp * sr               , cp * cr                , -sp,
-                cr * sp + cy * sr * sp, cr * cy * sp - sp * sr , cp * cy
-        );*/
-
-        /*return new Matrix3(
-                cy * cr + sy * sp * sr, cr * sy * sp - cy * sr, cp * sy,
-                cp * sr               , cp * cr               , -sp,
-                cy * sp * sr - cr * sy, sy * sr + cy * cr * sp, cy * cp
-        );*/
     }
 
     public static Matrix3 fromAngles(Location location) {
