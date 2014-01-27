@@ -14,25 +14,27 @@ public class AffineTransform {
 
     /**
      * Constructs and affine transformation that does nothing.
+     *
+     * @return an identity transformation
      */
-    public AffineTransform() {
-        this(Matrix3.identity(), new Vector());
+    public static AffineTransform identity() {
+        return new AffineTransform(Matrix3.identity(), new Vector());
     }
 
     /**
      * Constructs an affine transformation that rotates the specified number of degrees around the specified axis and then shifts by the specified offset.
      *
-     * @param offset
-     * @param axis
-     * @param radians
-     * @return
+     * @param offset offset result by this vector after rotation
+     * @param axis rotate about the axis described by this vector
+     * @param angle rotate this many degrees
+     * @return the requested transformation
      */
-    public static AffineTransform fromOffsetAxisAndAngle(Vector offset, Vector axis, double radians) {
-        return new AffineTransform(Matrix3.fromAxisAndAngle(axis, radians), offset.clone());
+    public static AffineTransform fromOffsetAxisAndAngle(Vector offset, Vector axis, double angle) {
+        return new AffineTransform(Matrix3.fromAxisAndAngle(axis, angle), offset.clone());
     }
 
     /**
-     * Constructs an affine transformation from the specified offset and angles.
+     * Constructs an affine transformation from the specified angles and offset.
      * <p>
      * The following conditions apply:
      * <ul>
@@ -41,13 +43,13 @@ public class AffineTransform {
      * <li>Z axis points forward
      * </ul>
      *
-     * @param offset
-     * @param yaw
-     * @param pitch
-     * @param roll
-     * @return
+     * @param yaw first, rotate by this many degrees around the Y axis
+     * @param pitch second, rotate by this many degrees around the X axis
+     * @param roll third, rotate by this many degrees around the Z axis
+     * @param offset finally, offset the result by this vector
+     * @return the resulting affine transformation
      */
-    public static AffineTransform fromOffsetAndAngles(Vector offset, double yaw, double pitch, double roll) {
+    public static AffineTransform fromOffsetAndAngles(double yaw, double pitch, double roll, Vector offset) {
         return new AffineTransform(Matrix3.fromAngles(yaw, pitch, roll), offset.clone());
     }
 
@@ -61,8 +63,8 @@ public class AffineTransform {
      * <li>Z axis points forward
      * </ul>
      *
-     * @param location
-     * @return
+     * @param location the location to use as a reference for constructing an affine transformation
+     * @return the resulting affine transformation
      */
     public static AffineTransform fromOffsetAndAngles(Location location) {
         return new AffineTransform(Matrix3.fromAngles(location), location.toVector());
