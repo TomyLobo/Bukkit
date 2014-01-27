@@ -35,6 +35,10 @@ public class Matrix3 {
     }
 
     public static Matrix3 fromAxisAndAngle(Vector axis, double angle) {
+        if (angle == 0) {
+            return Matrix3.identity();
+        }
+
         angle = Math.toRadians(angle);
 
         final double length = axis.length();
@@ -61,6 +65,10 @@ public class Matrix3 {
      * @return a matrix representing a rotation around the given angles
      */
     public static Matrix3 fromAngles(double yaw, double pitch, double roll) {
+        if (yaw == 0 && pitch == 0 && roll == 0) {
+            return Matrix3.identity();
+        }
+
         yaw = Math.toRadians(yaw);
         pitch = Math.toRadians(pitch);
         roll = Math.toRadians(roll);
