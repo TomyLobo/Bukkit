@@ -18,6 +18,14 @@ public class Matrix3 {
         data = elements;
     }
 
+    /**
+     * Builds a matrix from the specified columns.
+     *
+     * @param a0 left column
+     * @param a1 center column
+     * @param a2 right column
+     * @return the constructed matrix
+     */
     public static Matrix3 fromColumns(Vector a0, Vector a1, Vector a2) {
         return new Matrix3(
                 a0.x, a1.x, a2.x,
@@ -26,6 +34,14 @@ public class Matrix3 {
         );
     }
 
+    /**
+     * Builds a matrix from the specified rows.
+     *
+     * @param a0 top row
+     * @param a1 middle row
+     * @param a2 bottom row
+     * @return the constructed matrix
+     */
     public static Matrix3 fromRows(Vector a0, Vector a1, Vector a2) {
         return new Matrix3(
                 a0.x, a0.y, a0.z,
@@ -57,12 +73,12 @@ public class Matrix3 {
     }
 
     /**
-     *
+     * Constructs a matrix from the specified angles.
      *
      * @param yaw rotation about the Y axis
      * @param pitch rotation about the X axis
      * @param roll rotation about the Z axis
-     * @return a matrix representing a rotation around the given angles
+     * @return a matrix representing a rotation around the specified angles
      */
     public static Matrix3 fromAngles(double yaw, double pitch, double roll) {
         if (yaw == 0 && pitch == 0 && roll == 0) {
