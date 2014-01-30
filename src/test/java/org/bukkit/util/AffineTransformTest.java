@@ -41,7 +41,7 @@ public class AffineTransformTest {
 
     private void testTransform(Vector vector) {
         // Test conformity with the untransformed coordinate system
-        AffineTransform transform = AffineTransform.fromOffsetAndAngles(new Location(null, 0, 0, 0, 0, 0));
+        AffineTransform transform = AffineTransform.fromAnglesAndOffset(new Location(null, 0, 0, 0, 0, 0));
         assertVectorEquals(vector, transform.toLocalAxis(vector));
         assertVectorEquals(vector, transform.toWorldAxis(vector));
         assertVectorEquals(vector, transform.toLocal(vector));
@@ -49,7 +49,7 @@ public class AffineTransformTest {
     }
 
     private void testTransform(Location reference, Vector vector) {
-        AffineTransform transform = AffineTransform.fromOffsetAndAngles(reference);
+        AffineTransform transform = AffineTransform.fromAnglesAndOffset(reference);
         // Test inverse functions
         assertVectorEquals(vector, transform.toWorldAxis(transform.toLocalAxis(vector)));
         assertVectorEquals(vector, transform.toLocalAxis(transform.toWorldAxis(vector)));
@@ -74,7 +74,7 @@ public class AffineTransformTest {
     }
 
     private void testTransform(Location reference) {
-        AffineTransform transform = AffineTransform.fromOffsetAndAngles(reference);
+        AffineTransform transform = AffineTransform.fromAnglesAndOffset(reference);
         // Test conformity with Location.getDirection()
         assertVectorEquals(reference.getDirection(), transform.toWorldAxis(new Vector(0, 0, 1)));
     }
@@ -82,8 +82,8 @@ public class AffineTransformTest {
     private void testTransform(Location referenceA, Location referenceB, Vector vector) {
         //referenceA = referenceA.clone(); referenceA.setX(0); referenceA.setY(0); referenceA.setZ(0);
         //referenceB = referenceB.clone(); referenceB.setX(0); referenceB.setY(0); referenceB.setZ(0);
-        AffineTransform transformA = AffineTransform.fromOffsetAndAngles(referenceA);
-        AffineTransform transformB = AffineTransform.fromOffsetAndAngles(referenceB);
+        AffineTransform transformA = AffineTransform.fromAnglesAndOffset(referenceA);
+        AffineTransform transformB = AffineTransform.fromAnglesAndOffset(referenceB);
         AffineTransform transformAB = transformA.clone().multiply(transformB);
         AffineTransform transformBA = transformB.clone().multiply(transformA);
 
