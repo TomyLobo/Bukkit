@@ -68,8 +68,8 @@ public class AffineTransformTest {
      * @param actual the value to check against <code>expected</code>
      */
     private void assertVectorEquals(Vector expected, Vector actual) {
-        assertThat(actual.getX(), is(closeTo(expected.getX(), 1e-9)));
-        assertThat(actual.getY(), is(closeTo(expected.getY(), 1e-9)));
-        assertThat(actual.getZ(), is(closeTo(expected.getZ(), 1e-9)));
+        assertThat("X axis of vector is wrong", actual.getX(), is(closeTo(expected.getX(), 1e-9)));
+        assertThat("Y axis of vector is wrong", actual.getY(), is(closeTo(expected.getY(), 1e-9)));
+        assertThat("Z axis of vector is wrong", actual.getZ(), is(closeTo(expected.getZ(), 1e-9)));
     }
 }
