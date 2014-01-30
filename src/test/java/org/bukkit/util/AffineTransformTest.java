@@ -28,6 +28,9 @@ public class AffineTransformTest {
             testTransform(reference);
             for (Vector vector : vectors) {
                 testTransform(reference, vector);
+                for (Location reference2 : references) {
+                    testTransform(reference, reference2, vector);
+                }
             }
         }
 
@@ -52,13 +55,45 @@ public class AffineTransformTest {
         assertVectorEquals(vector, transform.toLocalAxis(transform.toWorldAxis(vector)));
         assertVectorEquals(vector, transform.toWorld(transform.toLocal(vector)));
         assertVectorEquals(vector, transform.toLocal(transform.toWorld(vector)));
+
+        // Test length preservation
         assertThat(transform.toWorldAxis(vector).length(), is(closeTo(vector.length(), 1e-9)));
+
+        // Test inversion
+        AffineTransform inverse = transform.inverse();
+
+        assertVectorEquals(vector, transform.toWorldAxis(inverse.toWorldAxis(vector)));
+        assertVectorEquals(vector, transform.toLocalAxis(inverse.toLocalAxis(vector)));
+        assertVectorEquals(vector, transform.toWorld(inverse.toWorld(vector)));
+        assertVectorEquals(vector, transform.toLocal(inverse.toLocal(vector)));
+
+        assertVectorEquals(vector, inverse.toWorldAxis(transform.toWorldAxis(vector)));
+        assertVectorEquals(vector, inverse.toLocalAxis(transform.toLocalAxis(vector)));
+        assertVectorEquals(vector, inverse.toWorld(transform.toWorld(vector)));
+        assertVectorEquals(vector, inverse.toLocal(transform.toLocal(vector)));
     }
 
     private void testTransform(Location reference) {
         AffineTransform transform = AffineTransform.fromOffsetAndAngles(reference);
         // Test conformity with Location.getDirection()
         assertVectorEquals(reference.getDirection(), transform.toWorldAxis(new Vector(0, 0, 1)));
+    }
+
+    private void testTransform(Location referenceA, Location referenceB, Vector vector) {
+        //referenceA = referenceA.clone(); referenceA.setX(0); referenceA.setY(0); referenceA.setZ(0);
+        //referenceB = referenceB.clone(); referenceB.setX(0); referenceB.setY(0); referenceB.setZ(0);
+        AffineTransform transformA = AffineTransform.fromOffsetAndAngles(referenceA);
+        AffineTransform transformB = AffineTransform.fromOffsetAndAngles(referenceB);
+        AffineTransform transformAB = transformA.clone().multiply(transformB);
+        AffineTransform transformBA = transformB.clone().multiply(transformA);
+
+        // Test associativity for toWorld[Axis]: A(Bv) == (AB)v
+        assertVectorEquals(transformA.toWorld(transformB.toWorld(vector)), transformAB.toWorld(vector));
+        assertVectorEquals(transformA.toWorldAxis(transformB.toWorldAxis(vector)), transformAB.toWorldAxis(vector));
+
+        // Test associativity for toLocal[Axis]: A'(B'v) == (BA)'v where M' = M ^ -1, the inverse of M
+        assertVectorEquals(transformA.toLocal(transformB.toLocal(vector)), transformBA.toLocal(vector));
+        assertVectorEquals(transformA.toLocalAxis(transformB.toLocalAxis(vector)), transformBA.toLocalAxis(vector));
     }
 
     /**

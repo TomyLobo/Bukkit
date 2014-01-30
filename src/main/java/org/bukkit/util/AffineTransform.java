@@ -70,6 +70,25 @@ public class AffineTransform {
         return new AffineTransform(Matrix3.fromAngles(location), location.toVector());
     }
 
+    public AffineTransform inverse() {
+        final Matrix3 inverse = orthogonalMatrix.inverse();
+        return new AffineTransform(inverse, inverse.multiply(offset).multiply(-1.0));
+    }
+
+    public AffineTransform multiply(AffineTransform rhs) {
+        /*
+        derivation:
+        combine Av+x (i.e. this.toWorld) and Bv+y (i.e. rhs.toWorld)
+        Cv+z = A(Bv+y)+x  | A(B+C) = AB+AC
+        Cv+z = (ABv+Ay)+x | (A+B)+C = A+(B+C)
+        Cv+z = ABv+(Ay+x)
+         ||
+         \/
+        C=AB
+        z=Ay+x, in other words (Av+x)(y), i.e. toWorld(rhs.offset)
+        */
+        return new AffineTransform(orthogonalMatrix.clone().multiply(rhs.orthogonalMatrix), toWorld(rhs.offset));
+    }
 
     /**
      * Transforms an axis from the local reference frame described by this
