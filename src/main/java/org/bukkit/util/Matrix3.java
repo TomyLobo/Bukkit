@@ -172,7 +172,9 @@ public class Matrix3 {
     //*********************** operations between two matrices **********************
 
     public Matrix3 multiply(Matrix3 rhs) {
-        // TODO: make this consistent with the other operations
+        // TODO: consider making this method return a new instance.
+        // upside: eliminates the forced copy, consistent with other multiply methods
+        // downside: inconsistent with the other matrix/matrix operations
         double[] duplicate = Arrays.copyOf(data, 9);
         for (int i = 0; i < 3; ++i) {
             for (int j = 0; j < 3; ++j) {
