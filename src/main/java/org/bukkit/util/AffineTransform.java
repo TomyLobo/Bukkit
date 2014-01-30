@@ -36,11 +36,11 @@ public class AffineTransform {
     /**
      * Constructs an affine transformation from the specified angles and offset.
      * <p>
-     * The following conditions apply:
+     * If used on a player's eye location, the following conditions apply:
      * <ul>
-     * <li>X axis points to the left
-     * <li>Y axis points upward
-     * <li>Z axis points forward
+     * <li>The X axis points to the left
+     * <li>The Y axis points upward
+     * <li>The Z axis points forward
      * </ul>
      *
      * @param yaw first, rotate by this many degrees around the Y axis
@@ -56,11 +56,11 @@ public class AffineTransform {
     /**
      * Constructs an affine transformation from the specified {@link Location}.
      * <p>
-     * The following conditions apply:
+     * If used on a player's eye location, the following conditions apply:
      * <ul>
-     * <li>X axis points to the left
-     * <li>Y axis points upward
-     * <li>Z axis points forward
+     * <li>The X axis points to the left
+     * <li>The Y axis points upward
+     * <li>The Z axis points forward
      * </ul>
      *
      * @param location the location to use as a reference for constructing an affine transformation
