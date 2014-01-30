@@ -299,4 +299,9 @@ public class Matrix3 {
 
         return "Matrix3{" + b.toString() + "\n}";
     }
+
+    @Override
+    public Matrix3 clone() {
+        return new Matrix3(Arrays.copyOf(data, 9));
+    }
 }

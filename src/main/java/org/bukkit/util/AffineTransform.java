@@ -147,4 +147,9 @@ public class AffineTransform {
                 ", offset=" + offset +
                 '}';
     }
+
+    @Override
+    public AffineTransform clone() {
+        return new AffineTransform(orthogonalMatrix.clone(), offset.clone());
+    }
 }
