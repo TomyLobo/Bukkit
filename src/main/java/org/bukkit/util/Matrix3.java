@@ -299,12 +299,12 @@ public class Matrix3 {
     //*************************** operations with vectors **************************
 
     /**
-     * M&sdot;v
+     * Multiplies this matrix with the specified vector and returns the result.
      * <p>
-     * where M=this, v=rhs
+     * v' = M&sdot;v where M := this, v := rhs, v' is returned
      *
-     * @param rhs
-     * @return
+     * @param rhs the vector to multiply with
+     * @return the result
      */
     public Vector multiply(Vector rhs) {
         final double[] rhsArray = vectorToArray(rhs);
@@ -320,12 +320,12 @@ public class Matrix3 {
     }
 
     /**
-     * (v<sup>T</sup>&sdot;M)<sup>T</sup> = M<sup>T</sup>&sdot;v
+     * Left-multiplies this matrix with the transpose of the specified vector and returns the transpose of the result.
      * <p>
-     * where M=this, v=lhs
+     * v' = (v<sup>T</sup>&sdot;M)<sup>T</sup> = M<sup>T</sup>&sdot;v where M := this, v := lhs, v' is returned
      *
-     * @param lhs
-     * @return
+     * @param lhs the vector to multiply with
+     * @return the transposed result
      */
     public Vector multiplyTranspose(Vector lhs) {
         final double[] lhsArray = vectorToArray(lhs);
