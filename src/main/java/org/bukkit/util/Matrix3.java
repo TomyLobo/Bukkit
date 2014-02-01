@@ -19,6 +19,11 @@ public class Matrix3 {
     }
 
 
+    /**
+     * Constructs a matrix that does nothing to a vector when multiplied with it.
+     *
+     * @return an identity matrix
+     */
     public static Matrix3 identity() {
         return new Matrix3(
                 1, 0, 0,
@@ -59,6 +64,14 @@ public class Matrix3 {
         );
     }
 
+    /**
+     * Constructs a matrix that, when a vector multiplied with it, rotates
+     * it the specified amount of degrees around the specified axis.
+     *
+     * @param axis rotate about the axis described by this vector
+     * @param angle rotate this many degrees
+     * @return the resulting matrix
+     */
     public static Matrix3 fromAxisAndAngle(Vector axis, double angle) {
         if (angle == 0) {
             return Matrix3.identity();
@@ -83,11 +96,19 @@ public class Matrix3 {
 
     /**
      * Constructs a matrix from the specified angles.
+     * <p>
+     * The Minecraft axis conventions are used, so that if a player's eye
+     * location's components are passed, the following conditions apply:
+     * <ul>
+     * <li>The X axis points to the left
+     * <li>The Y axis points upward
+     * <li>The Z axis points forward
+     * </ul>
      *
-     * @param yaw rotation about the Y axis
-     * @param pitch rotation about the X axis
-     * @param roll rotation about the Z axis
-     * @return a matrix representing a rotation around the specified angles
+     * @param yaw first, rotate by this many degrees around the Y axis
+     * @param pitch second, rotate by this many degrees around the X axis
+     * @param roll third, rotate by this many degrees around the Z axis
+     * @return the resulting affine transformation
      */
     public static Matrix3 fromAngles(double yaw, double pitch, double roll) {
         if (yaw == 0 && pitch == 0 && roll == 0) {
@@ -111,6 +132,20 @@ public class Matrix3 {
         );
     }
 
+    /**
+     * Constructs a matrix from the specified {@link Location}'s angles.
+     * <p>
+     * The Minecraft axis conventions are used, so that if a player's eye
+     * location is passed, the following conditions apply:
+     * <ul>
+     * <li>The X axis points to the left
+     * <li>The Y axis points upward
+     * <li>The Z axis points forward
+     * </ul>
+     *
+     * @param location the location to use as a reference for constructing an affine transformation
+     * @return the resulting affine transformation
+     */
     public static Matrix3 fromAngles(Location location) {
         return fromAngles(location.getYaw(), location.getPitch(), 0);
     }
@@ -125,6 +160,13 @@ public class Matrix3 {
         data[row * 3 + column] = value;
     }
 
+    /**
+     * Returns the specified element of the matrix.
+     *
+     * @param row the row identifying the element
+     * @param column the column identifying the element
+     * @return the specified element
+     */
     public double get(int row, int column) {
         Validate.isTrue(row >= 0, "Row must be non-negative: ", row);
         Validate.isTrue(column >= 0, "Column must be non-negative: ", column);
@@ -134,6 +176,13 @@ public class Matrix3 {
         return rawGet(row, column);
     }
 
+    /**
+     * Sets the specified element of the matrix.
+     *
+     * @param row the row identifying the element
+     * @param column the column identifying the element
+     * @param value the value to set the element to
+     */
     public void set(int row, int column, double value) {
         Validate.isTrue(row >= 0, "Row must be non-negative: ", row);
         Validate.isTrue(column >= 0, "Column must be non-negative: ", column);
@@ -145,10 +194,21 @@ public class Matrix3 {
 
     //****************************** utility methods *****************************
 
+    /**
+     * Returns the determinant of the matrix.
+     *
+     * @return the determinant
+     */
     public double det() {
         return rawGet(0, 0) * rawGet(1, 1) * rawGet(2, 2) + rawGet(0, 1) * rawGet(1, 2) * rawGet(2, 0) + rawGet(0, 2) * rawGet(1, 0) * rawGet(2, 1) - rawGet(2, 0) * rawGet(1, 1) * rawGet(0, 2) - rawGet(2, 1) * rawGet(1, 2) * rawGet(0, 0) - rawGet(2, 2) * rawGet(1, 0) * rawGet(0, 1);
     }
 
+    /**
+     * Returns a new matrix that, when multiplied with this matrix, yields the
+     * identity matrix.
+     *
+     * @return the inverted transformation
+     */
     public Matrix3 inverse() {
         final double determinant = det();
 
@@ -168,6 +228,13 @@ public class Matrix3 {
         );
     }
 
+    /**
+     * Returns a matrix, which has columns and rows swapped.
+     * <p>
+     * That means rows become columns and vice versa.
+     *
+     * @return the transposed matrix
+     */
     public Matrix3 transpose() {
         final Matrix3 ret = new Matrix3();
         for (int i = 0; i < 3; ++i) {
@@ -208,10 +275,10 @@ public class Matrix3 {
     }
 
     /**
-     * Adds another matrix to this one, component-wise.
+     * Adds another matrix to this one, element-wise.
      *
      * @param rhs the matrix to add
-     * @return this instance, containing the added components
+     * @return this instance, containing the added elements
      */
     public Matrix3 add(Matrix3 rhs) {
         for (int n = 0; n < 9; ++n) data[n] += rhs.data[n];
@@ -219,10 +286,10 @@ public class Matrix3 {
     }
 
     /**
-     * Subtracts another matrix from this one, component-wise.
+     * Subtracts another matrix from this one, element-wise.
      *
      * @param rhs the matrix to subtract
-     * @return this instance, containing the subtracted components
+     * @return this instance, containing the subtracted elements
      */
     public Matrix3 subtract(Matrix3 rhs) {
         for (int n = 0; n < 9; ++n) data[n] -= rhs.data[n];
@@ -291,21 +358,45 @@ public class Matrix3 {
 
     //*************************** operations with scalars **************************
 
+    /**
+     * Multiplies each element with the specified scalar.
+     *
+     * @param scalar the scalar to multiply with
+     * @return this instance, containing the multiplied elements
+     */
     public Matrix3 multiply(double scalar) {
         for (int n = 0; n < 9; ++n) data[n] *= scalar;
         return this;
     }
 
+    /**
+     * Divides each element by the specified scalar.
+     *
+     * @param scalar the scalar to divide by
+     * @return this instance, containing the divided elements
+     */
     public Matrix3 divide(double scalar) {
         for (int n = 0; n < 9; ++n) data[n] /= scalar;
         return this;
     }
 
+    /**
+     * Adds the specified scalar to each element.
+     *
+     * @param scalar the scalar to add
+     * @return this instance, containing the added elements
+     */
     public Matrix3 add(double scalar) {
         for (int n = 0; n < 9; ++n) data[n] += scalar;
         return this;
     }
 
+    /**
+     * Subtracts the specified scalar from each element.
+     *
+     * @param scalar the scalar to subtract
+     * @return this instance, containing the subtracted elements
+     */
     public Matrix3 subtract(double scalar) {
         for (int n = 0; n < 9; ++n) data[n] -= scalar;
         return this;

@@ -13,7 +13,7 @@ public class AffineTransform {
     }
 
     /**
-     * Constructs and affine transformation that does nothing.
+     * Constructs an affine transformation that does nothing.
      *
      * @return an identity transformation
      */
@@ -22,12 +22,14 @@ public class AffineTransform {
     }
 
     /**
-     * Constructs an affine transformation that rotates the specified number of degrees around the specified axis and then shifts by the specified offset.
+     * Constructs an affine transformation that rotates the specified amount
+     * of degrees around the specified axis and then shifts by the specified
+     * offset.
      *
      * @param axis rotate about the axis described by this vector
      * @param angle rotate this many degrees
      * @param offset offset result by this vector after rotation
-     * @return the requested transformation
+     * @return the resulting affine transformation
      */
     public static AffineTransform fromAxisAngleAndOffset(Vector axis, double angle, Vector offset) {
         return new AffineTransform(Matrix3.fromAxisAndAngle(axis, angle), offset.clone());
@@ -36,7 +38,8 @@ public class AffineTransform {
     /**
      * Constructs an affine transformation from the specified angles and offset.
      * <p>
-     * If used on a player's eye location, the following conditions apply:
+     * The Minecraft axis conventions are used, so that if a player's eye
+     * location's components are passed, the following conditions apply:
      * <ul>
      * <li>The X axis points to the left
      * <li>The Y axis points upward
@@ -56,7 +59,8 @@ public class AffineTransform {
     /**
      * Constructs an affine transformation from the specified {@link Location}.
      * <p>
-     * If used on a player's eye location, the following conditions apply:
+     * The Minecraft axis conventions are used, so that if a player's eye
+     * location is passed, the following conditions apply:
      * <ul>
      * <li>The X axis points to the left
      * <li>The Y axis points upward
@@ -73,7 +77,8 @@ public class AffineTransform {
     /**
      * Returns a new affine transformation such that it cancels this one out,
      * if they are applied in order.
-     * @return
+     *
+     * @return the inverted transformation
      */
     public AffineTransform inverse() {
         // An orthogonal matrix's inverse is its transpose
