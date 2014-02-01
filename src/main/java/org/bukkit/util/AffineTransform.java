@@ -24,7 +24,6 @@ public class AffineTransform {
     /**
      * Constructs an affine transformation that rotates the specified number of degrees around the specified axis and then shifts by the specified offset.
      *
-     *
      * @param axis rotate about the axis described by this vector
      * @param angle rotate this many degrees
      * @param offset offset result by this vector after rotation
@@ -71,11 +70,26 @@ public class AffineTransform {
         return new AffineTransform(Matrix3.fromAngles(location), location.toVector());
     }
 
+    /**
+     * Returns a new affine transformation such that it cancels this one out,
+     * if they are applied in order.
+     * @return
+     */
     public AffineTransform inverse() {
         final Matrix3 inverse = orthogonalMatrix.inverse();
         return new AffineTransform(inverse, inverse.multiply(offset).multiply(-1.0));
     }
 
+    /**
+     * Returns a new affine transformation that encompasses both this and the
+     * specified transformation.
+     * <p>
+     * Like in all matrix multiplications, the result applies the
+     * transformations right-to-left.
+     *
+     * @param rhs the transformation to multiply with
+     * @return the combined transformation
+     */
     public AffineTransform multiply(AffineTransform rhs) {
         /*
         derivation:

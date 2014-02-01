@@ -171,6 +171,16 @@ public class Matrix3 {
 
     //*********************** operations between two matrices **********************
 
+    /**
+     * Replaces this matrix by a new matrix that encompasses both this and the
+     * specified matrix.
+     * <p>
+     * Like in all matrix multiplications, the result applies the
+     * transformations right-to-left.
+     *
+     * @param rhs the matrix to multiply with
+     * @return this instance, containing the combined matrix
+     */
     public Matrix3 multiply(Matrix3 rhs) {
         // TODO: consider making this method return a new instance.
         // upside: eliminates the forced copy, consistent with other multiply methods
@@ -188,11 +198,23 @@ public class Matrix3 {
         return this;
     }
 
+    /**
+     * Adds another matrix to this one, component-wise.
+     *
+     * @param rhs the matrix to add
+     * @return this instance, containing the added components
+     */
     public Matrix3 add(Matrix3 rhs) {
         for (int n = 0; n < 9; ++n) data[n] += rhs.data[n];
         return this;
     }
 
+    /**
+     * Subtracts another matrix from this one, component-wise.
+     *
+     * @param rhs the matrix to subtract
+     * @return this instance, containing the subtracted components
+     */
     public Matrix3 subtract(Matrix3 rhs) {
         for (int n = 0; n < 9; ++n) data[n] -= rhs.data[n];
         return this;
