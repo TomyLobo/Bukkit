@@ -76,7 +76,8 @@ public class AffineTransform {
      * @return
      */
     public AffineTransform inverse() {
-        final Matrix3 inverse = orthogonalMatrix.inverse();
+        // An orthogonal matrix's inverse is its transpose
+        final Matrix3 inverse = orthogonalMatrix.transpose();
         return new AffineTransform(inverse, inverse.multiply(offset).multiply(-1.0));
     }
 
