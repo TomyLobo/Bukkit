@@ -18,6 +18,15 @@ public class Matrix3 {
         data = elements;
     }
 
+
+    public static Matrix3 identity() {
+        return new Matrix3(
+                1, 0, 0,
+                0, 1, 0,
+                0, 0, 1
+        );
+    }
+
     /**
      * Builds a matrix from the specified columns.
      *
@@ -300,14 +309,6 @@ public class Matrix3 {
     public Matrix3 subtract(double scalar) {
         for (int n = 0; n < 9; ++n) data[n] -= scalar;
         return this;
-    }
-
-    public static Matrix3 identity() {
-        return new Matrix3(
-                1,0,0,
-                0,1,0,
-                0,0,1
-        );
     }
 
     @Override
