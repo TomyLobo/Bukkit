@@ -188,13 +188,13 @@ public class Matrix3 {
         return this;
     }
 
-    public Matrix3 add(Matrix3 other) {
-        for (int n = 0; n < 9; ++n) data[n] += other.data[n];
+    public Matrix3 add(Matrix3 rhs) {
+        for (int n = 0; n < 9; ++n) data[n] += rhs.data[n];
         return this;
     }
 
-    public Matrix3 subtract(Matrix3 other) {
-        for (int n = 0; n < 9; ++n) data[n] -= other.data[n];
+    public Matrix3 subtract(Matrix3 rhs) {
+        for (int n = 0; n < 9; ++n) data[n] -= rhs.data[n];
         return this;
     }
 
