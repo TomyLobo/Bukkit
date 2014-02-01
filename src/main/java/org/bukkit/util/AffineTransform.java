@@ -4,8 +4,8 @@ import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 
 public class AffineTransform {
-    final Matrix3 orthogonalMatrix;
-    final Vector offset;
+    private final Matrix3 orthogonalMatrix;
+    private final Vector offset;
 
     private AffineTransform(Matrix3 orthogonalMatrix, Vector offset) {
         this.orthogonalMatrix = orthogonalMatrix;
