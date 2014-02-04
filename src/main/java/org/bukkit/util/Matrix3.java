@@ -64,6 +64,18 @@ public class Matrix3 {
         );
     }
 
+    public static Matrix3 fromPerpendicularRotation(Vector from, Vector to) {
+        final double cosRadians = from.dot(to);
+        if (cosRadians == 1) {
+            return Matrix3.identity();
+        }
+
+        final Vector axis = from.clone().crossProduct(to);
+
+        final double sinRadians = Math.sqrt(1 - cosRadians * cosRadians);
+        return rotationMatrixHelper(axis, cosRadians, sinRadians);
+    }
+
     /**
      * Constructs a matrix that, when a vector multiplied with it, rotates
      * it the specified amount of degrees around the specified axis.
@@ -79,14 +91,17 @@ public class Matrix3 {
 
         angle = Math.toRadians(angle);
 
+        return rotationMatrixHelper(axis, Math.cos(angle), Math.sin(angle));
+    }
+
+    private static Matrix3 rotationMatrixHelper(Vector axis, double cosRadians, double sinRadians) {
+        final double factor = 1 - cosRadians;
+
         final double length = axis.length();
 
         final double x = axis.getX() / length;
         final double y = axis.getY() / length;
         final double z = axis.getZ() / length;
-        final double cosRadians = Math.cos(angle);
-        final double factor = (1 - cosRadians);
-        final double sinRadians = Math.sin(angle);
         return new Matrix3(
                 x * x + (1 - x * x) * cosRadians, x * y * factor - z * sinRadians , x * z * factor + y * sinRadians,
                 x * y * factor + z * sinRadians , y * y + (1 - y * y) * cosRadians, y * z * factor - x * sinRadians,

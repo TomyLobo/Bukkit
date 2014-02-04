@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import static org.hamcrest.Matchers.closeTo;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 
 public class AffineTransformTest {
@@ -36,7 +37,35 @@ public class AffineTransformTest {
 
         for (Vector vector : vectors) {
             testTransform(vector);
+            for (Vector vector2 : vectors) {
+                testTransform(vector, vector2);
+            }
         }
+    }
+
+    private void testTransform(Vector vectorA, Vector vectorB) {
+        vectorA = vectorA.clone().normalize();
+        vectorB = vectorB.clone().normalize();
+
+        if (vectorA.equals(vectorB)) {
+            return;
+        }
+
+        if (vectorA.clone().multiply(-1.0).equals(vectorB)) {
+            return;
+        }
+
+        final Matrix3 matrix = Matrix3.fromPerpendicularRotation(vectorA, vectorB);
+        for (int i = 0 ; i < 3; ++i) {
+            for (int j = 0; j < 3; ++j) {
+                assertFalse(String.format("Element %d/%d is NaN", i, j), Double.isNaN(matrix.get(i, j)));
+            }
+        }
+
+        final Vector cross = vectorA.clone().crossProduct(vectorB);
+
+        assertVectorEquals(vectorB, matrix.multiply(vectorA));
+        assertVectorEquals(cross, matrix.multiply(cross));
     }
 
     private void testTransform(Vector vector) {
